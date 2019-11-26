@@ -1,0 +1,64 @@
+﻿@model IEnumerable<BPCE.Models.Test>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+Min <input type="number" id="min" />
+    Max <input type="number" id="max" />
+<button id="btn_filtre">Filtre</button>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                
+            </tr>
+        }
+    </tbody>
+</table>
+@section Scripts {
+    <script>
+    $('#btn_filtre').click(function (e) {
+
+
+        $.ajax({
+                type: "POST",
+                url: '@Url.Action("Filtrer", "Test")',
+                data: {
+                    min:  $('#min').val(),
+                    max: $('#max').val(),
+                },
+
+                dataType: "html",
+                success: function (data) {
+                    $(".table").html(data);
+
+                },
+            });
+        });
+    </script>
+    }
+
